@@ -1,3 +1,4 @@
 input/
 output/
 frozen/
+.DS_Store
