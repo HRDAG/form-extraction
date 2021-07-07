@@ -16,7 +16,7 @@ knitr::opts_chunk$set(fig.path = here::here("write/output/"))
 img {
     display: block;
     margin-top: 20px;
-    margin-left: 0%;
+    margin-left: auto;
     margin-right: auto;
 }
 figcaption {
@@ -24,8 +24,8 @@ figcaption {
     font-style: italic;
     margin-bottom: 20px;
     display: block;
-    margin-left: 0%;
-    margin-right: 20%;
+    margin-left: 15%;
+    margin-right: 15%;
 }
 ```
 
@@ -286,9 +286,9 @@ and truncate it for a conveniently sized file identifier:
 ```{r, eval=FALSE}
 pacman::p_load(digest, qpdf, tidyverse)
 
-inputfiles <- list.files(INPUTDIR, full.names=TRUE, pattern='*.pdf')
+inputfiles <- list.files(INPUTDIR, full.names = TRUE, pattern = '*.pdf')
 index <- tibble(filename = inputfiles) %>%
-    mutate(filesha1 = map_chr(filename, digest, algo='sha1', file=TRUE),
+    mutate(filesha1 = map_chr(filename, digest, algo = 'sha1', file = TRUE),
            fileid   = str_sub(filesha1, 1, 8),
            n_pages  = map_int(filename, pdf_length))
 
@@ -297,7 +297,7 @@ stopifnot(
     "fileids should be unique" = length(unique(index$fileid)) == nrow(index),
 )
 
-write_delim(index, OUTPUTNAME, delim='|')
+write_delim(index, OUTPUTNAME, delim = '|')
 ```
 
 The index should include any additional metadata available about the files. For
@@ -557,11 +557,15 @@ samp <- read_parquet("input/segment-layout-data.parquet")
 sampdesc = paste0("example: file ", unique(samp$fileid), " page ", unique(samp$pg))
 blocks <- samp %>%
     group_by(blockid) %>%
-    summarise(x0=min(x0), x1=max(x1), y0=min(y0), y1=max(y1), .groups="drop")
+    summarise(x0 = min(x0), x1 = max(x1),
+              y0 = min(y0), y1 = max(y1),
+              .groups = "drop")
 
 ros <- samp %>%
     group_by(rowid) %>%
-    summarise(x0=min(x0), x1=max(x1), y0=min(y0), y1=max(y1), .groups="drop")
+    summarise(x0 = min(x0), x1 = max(x1),
+              y0 = min(y0), y1 = max(y1),
+              .groups="drop")
 
 plot1 <- ggplot( samp, aes(xmin=x0,xmax=x1,ymin=y0,ymax=y1)) +
     geom_rect(color="black", fill="grey85", size=.1) +
@@ -667,14 +671,16 @@ out <- docs %>%
     mutate(map_dfc(regexes, str_detect)) %>%
     group_by(docid) %>%
     mutate(across(starts_with("re_"),
-                  list(nxt = lead, prv = lag),
+                  .fns   = list(nxt = lead, prv = lag),
                   .names = "{fn}_{col}"))
 
 write_parquet(out, args$output)
 ```
 
-It's helpful, as you explore the collection, to be thinking of tricks like this
-to transform intuitions into machine-friendly features.
+The resulting table includes columns `re_caps`, `prv_re_caps`, `nxt_re_caps`,
+`re_lows`, and so on. It's helpful, as you explore the collection, to be
+thinking of tricks like this to transform intuitions into machine-friendly
+features.
 
 ## Leave-one-document-out cross-validation
 
@@ -692,7 +698,7 @@ over a grid of parameter values to identify the best ones:
 ```{r, eval=FALSE}
 pacman::p_load(crfsuite, tidyverse, rsample)
 
-cv <- nest(trainfeats, data=-docid) %>%
+cv <- nest(trainfeats, data = -docid) %>%
     loo_cv %>%
     mutate(train = map(splits, training),
            test  = map(splits, testing))
@@ -715,7 +721,7 @@ produce evaluation statistics for each set of candidate parameters.
 
 Having segmented a collection of scanned pages into documents, and divided
 documents into their constituent sections, we move to pulling data into a
-standardize schema. In the parsing step, we dispatch tables to table-extraction
+standardized schema. In the parsing step, we dispatch tables to table-extraction
 code (see [appendix on working with layout
 data](#appendix-working-with-layout-data)), convert detected form elements into
 key-value pairs, process lists and unstructured text, and so on. These
@@ -792,7 +798,7 @@ pages of Chicago police misconduct data. This process is similar to the one [my
 colleague Patrick Ball and I described in this earlier
 blogpost](https://hrdag.org/tech-notes/indexing-selectors-from-collection-chat-messages.html)
 
-![](img/bts-narrative-example.png)
+![](img/bts-narrative-example.png){ height=400px }
 
 <figcaption>
 Example of unstructured allegation text in a complaint against the Chicago PD.
@@ -811,7 +817,7 @@ collection.
 
 In each of our three examples, the document collection is not an exhaustive
 account of all potential human rights violations. An act of police violence
-only results in a complaint record if a witness or survivor is willing to come
+only results in a complaint record if a witness or survivor is able to come
 forward with the allegation. Harassment of immigrants can take many forms
 beyond arrests. And SWAT raids are just one of the ways that police might
 forcefully enter someone's home. Understanding that our data reflects
@@ -826,7 +832,7 @@ complementary sources, giving us a more complete record of police violence.
 # Acknowledgements
 
 II-CPDP team: Trina Reynolds Tyler, Rajiv Sinclair, Chaclyn Hunt, Ola Ziwa,
-Gabrielle Bozarth, Sukari Stone, Matt Chapman, and many CPDP volunteers
+Gabrielle Bozarth, Sukari Stone, Matt Chapman, and many more CPDP volunteers
 
 UW-CHR team: Phil Neff, Maria Gargiulo
 
