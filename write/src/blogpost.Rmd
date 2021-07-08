@@ -359,10 +359,10 @@ identifying information about survivors and witnesses. In order to publish
 responsibly, the team sought to first organize the documents into document
 types, and then identify document types that are known to be free of
 identifying information. For instance, each complaint is associated with a
-summary "Face Sheet" that is safe to publish.  CPDP volunteer Phil put together
-a neural network based classifier that took in both page images and OCR text
-and classified each document as one among a sizable universe of known document
-types.
+summary "Face Sheet" that is safe to publish.  A CPDP volunteer from the [Lucy
+Parsons Labs](https://lucyparsonslabs.com/) put together a neural network based
+classifier that took in both page images and OCR text and classified each
+document as one among a sizable universe of known document types.
 
 
 At the other end of the spectrum, the University of Washington Center for Human
@@ -450,10 +450,10 @@ In creating the page classifier for the Green documents, it was difficult to
 even figure out what the universe of document types were -- each new sample
 produced new document types that hadn't been seen before. However, the team was
 able to identify and label a couple dozen known document types and train a
-classifier. From there, Phil noticed that he could do clustering using the
-document type scores as measures -- documents that got clustered together were
-always of the same administrative document type, even if that type had not been
-seen or labeled before! In this way, he was able to efficiently target new
+classifier. From there, a team member noticed that he could do clustering using
+the document type scores as measures -- documents that got clustered together
+were always of the same administrative document type, even if that type had not
+been seen or labeled before! In this way, he was able to efficiently target new
 training samples for labeling, resulting in a quickly improving classifier that
 covered more and more of the documents in the collection.
 
@@ -832,7 +832,8 @@ complementary sources, giving us a more complete record of police violence.
 # Acknowledgements
 
 II-CPDP team: Trina Reynolds Tyler, Rajiv Sinclair, Chaclyn Hunt, Ola Ziwa,
-Gabrielle Bozarth, Sukari Stone, Matt Chapman, and many more CPDP volunteers
+Gabrielle Bozarth, Sukari Stone, volunteers from the [Lucy Parsons
+Labs](https://lucyparsonslabs.com/)
 
 UW-CHR team: Phil Neff, Maria Gargiulo
 
