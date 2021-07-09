@@ -11,7 +11,7 @@ It would be good to include a verbal example of how the index/metadata is used d
 
 ##A Basic page sampler
 ##====================
-Just for context it would be good to know if this code is for the Chicago project or the University of Washington project. I haven't bumped into it yet but I haven't converted the R code upstream of classify-pages yet.
+Just for context it would be good to know if this code is for the Chicago project or the University of Washington project. I haven't bumped into it yet but I haven't converted the R code upstream of classify-pages yet.a
 
 ##Modeling tools for sequence labeling
 ##====================================
@@ -25,3 +25,20 @@ It's a great article and I understood everything you wrote. I appreciate that it
 
 best,
 aaron
+
+
+=================================================================
+07/09/21
+Hi Tarak,
+
+I just read your blogpost and I have only one general comment.
+
+In lines 161-170 of the rmd file, it may be obvious to your audience why varied samples could be more useful than statistically accurate ones but I had to think about about it. I think it is because documenting human rights violations may be what I would call a "needle in the haystack" problem. They may be low frequency events in the document set but their importance is much greater than their frequency so they can be missed by a process that strives to be statistically accurate. It may be useful to point this out.
+
+Great article. I understood everything you were explaining.
+thanks,
+aaron
+
+
+
+
