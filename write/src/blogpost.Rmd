@@ -160,13 +160,18 @@ pages.
 
 Though our sampling relies on randomness, we're not necessarily trying to
 collect a representative sample of the entire database. Instead, we're trying
-to maximize the variety and informativeness of our overall labeled dataset. As
-we create additional labels, we become better able to target records for review
-that would provide the most information value -- for instance by sampling just
-records for which our ML classifier scores between .4 and .6 or sampling in a
-way that over-selects the minority class in order to guarantee a healthy mix of
-positive and negative examples. For more about targeting training samples, see
-[this blogpost on "active
+to maximize the variety and informativeness of our overall labeled dataset --
+we will be using our labeled samples to train machine learning models, and we
+want the models to have seen the full variety of possible examples. This focus
+on variety is especially useful with wide-net FOIA request data, where we are
+searching through large collections for incidents that represent a relatively
+small proportion of the documents but that have high investigative importance.
+As we create additional labels, we become better able to target records for
+review that would provide the most information value -- for instance by
+sampling just records for which our ML classifier scores between .4 and .6 or
+sampling in a way that over-selects the minority class in order to guarantee a
+healthy mix of positive and negative examples. For more about targeting
+training samples, see [this blogpost on "active
 learning"](https://humanloop.com/blog/why-you-should-be-using-active-learning/).
 
 ## Heuristic and machine learning approaches complement each other
@@ -686,14 +691,17 @@ features.
 
 Though we're labeling at the level of individual lines or other pre-segmented
 groups of words, our samples are at the level of entire document. Furthermore,
-it's helpful to start with small batches of training data, and target new
-samples (for instance by selecting for labeling those documents where the
-classifier has low certainty about its outputs) as necessary based on
-performance on held-out data. To make the most of small amounts of training
-data, during training and parameter tuning I use Leave One Document Out (LODO)
-cross-validation. The ability to work with nested list-columns in R facilitates
-this kind of grouped sampling. The following code can be extended to iterate
-over a grid of parameter values to identify the best ones:
+it's helpful to start with small batches of training data (I'll start with
+about a dozen labeled documents), and target new samples (for instance by
+selecting for labeling those documents where the classifier has low certainty
+about its outputs) as necessary based on performance on held-out data. To make
+the most of small amounts of training data, during training and parameter
+tuning I use Leave One Document Out (LODO) cross-validation. Especially early
+on, it's helpful to review the worst-case performance -- this can help to
+inform the next batch of training samples. The ability to work with nested
+list-columns in R facilitates this kind of grouped sampling.  The following
+code can be extended to iterate over a grid of parameter values to identify the
+best ones:
 
 ```{r, eval=FALSE}
 pacman::p_load(crfsuite, tidyverse, rsample)
