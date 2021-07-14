@@ -748,7 +748,7 @@ extracted those tables), we wanted to be able to identify and flag incidents
 where the SWAT team encountered children upon entering a home. This information
 was encoded in a variety of different places and ways.
 
-![](img/bpd-ex-annotated-1.png){ height=600px }
+![](img/bpd-ex-annotated-1.png){ max-height=600px }
 
 <figcaption>
 Example shows multiple, inconsistent ways that the presence of children was
@@ -793,7 +793,7 @@ pages of Chicago police misconduct data. This process is similar to the one [my
 colleague Patrick Ball and I described in this earlier
 blogpost](https://hrdag.org/tech-notes/indexing-selectors-from-collection-chat-messages.html)
 
-![](img/bts-narrative-example.png){ height=400px }
+![](img/bts-narrative-example.png){ max-height=400px }
 
 <figcaption>
 Example of unstructured allegation text in a complaint against the Chicago PD.
