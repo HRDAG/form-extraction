@@ -2,31 +2,18 @@
 title: Processing scanned documents for investigations of police violence
 author:
 - "[Tarak Shah](https://hrdag.org/people/tarak-shah/)"
+date: 13 July 2021
 output:
-    github_document:
+    html_document:
+        css: github.css
         toc: true
+        includes:
+            before_body: header.html
 ---
 
 ```{r opts, echo = FALSE}
 knitr::opts_knit$set(root.dir = here::here("write"))
 knitr::opts_chunk$set(fig.path = here::here("write/output/"))
-```
-
-```{css, echo = FALSE}
-img {
-    display: block;
-    margin-top: 20px;
-    margin-left: auto;
-    margin-right: auto;
-}
-figcaption {
-    text-align: left;
-    font-style: italic;
-    margin-bottom: 20px;
-    display: block;
-    margin-left: 15%;
-    margin-right: 15%;
-}
 ```
 
 # Introduction and background
@@ -887,23 +874,23 @@ boxes2edges <- function(boxes, similarity, threshold) {
     n_box <- nrow(boxes)
     result <- vector("list", n_box)
     for (index in seq_len(n_box-1)) {
-        ind2 <- index+1
-        box1 <- boxes[index, ]
-        boxk <- boxes[ind2:n_box, ]
-        sim <- similarity(box1, boxk)
+        ind2         <- index+1
+        box1         <- boxes[index, ]
+        boxk         <- boxes[ind2:n_box, ]
+        sim          <- similarity(box1, boxk)
         neighbor_ids <- boxk$id[sim > threshold]
         if (length(neighbor_ids) > 0)
-            result[[index]] <- tibble(from=box1$id, to=neighbor_ids)
+            result[[index]] <- tibble(from = box1$id, to = neighbor_ids)
     }
     bind_rows(purrr::compact(result))
 }
 
 add_groupid <- function(boxes, ...) {
     edges <- boxes2edges(boxes, ...)
-    tbl_graph(edges=mutate_all(edges, as.character),
-              nodes=boxes,
-              directed=F) %>%
-    mutate(groupid=group_components()) %>%
+    tbl_graph(edges    = mutate_all(edges, as.character),
+              nodes    = boxes,
+              directed = F) %>%
+    mutate(groupid = group_components()) %>%
     as_tibble("nodes")
 }
 ```
@@ -934,11 +921,11 @@ x_overlap = function(box1, box2) {
 }
 
 columns <- boxes %>%
-    add_groupid(similarity=x_overlap, threshold=0) %>%
-    mutate(column=letters[groupid]) %>%
+    add_groupid(similarity = x_overlap, threshold = 0) %>%
+    mutate(column = letters[groupid]) %>%
     group_by(column) %>%
-    summarise(x0=min(x0), x1=max(x1), y0=min(y0), y1=max(y1),
-              .groups="drop")
+    summarise(x0 = min(x0), x1 = max(x1), y0 = min(y0), y1 = max(y1),
+              .groups = "drop")
 
 ```
 
